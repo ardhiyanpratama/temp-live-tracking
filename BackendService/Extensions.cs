@@ -1,4 +1,6 @@
-﻿using BackendService.Data;
+﻿using BackendService.Application.Core.IRepositories;
+using BackendService.Application.Core.Repositories;
+using BackendService.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendService
@@ -26,6 +28,8 @@ namespace BackendService
         public static IServiceCollection AddRepository(this IServiceCollection services)
         {
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
 
             return services;
         }
