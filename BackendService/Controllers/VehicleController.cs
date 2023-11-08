@@ -1,10 +1,12 @@
 ﻿using BackendService.Application.Core.IRepositories;
+using BackendService.Application.RabbitMq;
 using BackendService.Data;
 using BackendService.Dtos;
 using BackendService.ViewModel;
 using CustomLibrary.Adapter;
 using CustomLibrary.Exceptions;
 using CustomLibrary.Helper;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendService.Controllers
@@ -16,14 +18,20 @@ namespace BackendService.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IVehicleRepository _vehicleRepository;
         private readonly ILoggerAdapter<VehicleController> _logger;
+        private readonly IProducer _producer;
+        private readonly IAdditionalInformationRepository _additionalInformationRepository;
 
         public VehicleController(ApplicationDbContext context
             ,ILogger<VehicleController> logger
-            ,IVehicleRepository vehicleRepository)
+            ,IVehicleRepository vehicleRepository
+            ,IProducer producer
+            ,IAdditionalInformationRepository additionalInformationRepository)
         {
             _context = context;
             _vehicleRepository = vehicleRepository;
             _logger = new LoggerAdapter<VehicleController>(logger);
+            _producer = producer;
+            _additionalInformationRepository = additionalInformationRepository;
         }
 
         [HttpPost]
@@ -37,6 +45,10 @@ namespace BackendService.Controllers
             {
                 throw new AppException(ResponseMessageExtensions.Database.WriteFailed);
             }
+
+            var additionalInformation = await _additionalInformationRepository.GetHelper(input.Data.PlateNumber);
+
+            _producer.SendDetailMessage(additionalInformation);
 
             return this.OkResponse(ResponseMessageExtensions.Database.WriteSuccess);
         }

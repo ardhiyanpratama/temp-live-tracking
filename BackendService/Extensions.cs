@@ -1,6 +1,8 @@
 ﻿using BackendService.Application.Core.IRepositories;
 using BackendService.Application.Core.Repositories;
+using BackendService.Application.RabbitMq;
 using BackendService.Data;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendService
@@ -30,6 +32,18 @@ namespace BackendService
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IAdditionalInformationRepository, AdditionalInformationRepository>();
+            services.AddScoped<IProducer, Producer>();
+
+            return services;
+        }
+        public static IServiceCollection AddRabbitMqService(this IServiceCollection services)
+        {
+            services.AddMassTransit(config => {
+                config.UsingRabbitMq((ctx, cfg) => {
+                    cfg.Host("amqp://guest:guest@localhost:5672");
+                });
+            });
 
             return services;
         }

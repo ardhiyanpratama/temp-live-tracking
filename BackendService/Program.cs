@@ -2,6 +2,7 @@ using BackendService;
 using BackendService.Data.DataSeed;
 using CustomLibrary.Extensions;
 using CustomLibrary.Middlewares;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services
     .AddCustomMvc()
     .AddMapster()
     .AddRepository()
+    .AddRabbitMqService()
     .AddHealthChecks();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
