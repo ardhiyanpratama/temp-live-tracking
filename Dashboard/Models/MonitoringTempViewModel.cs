@@ -1,6 +1,6 @@
-﻿namespace BackendService.ViewModel
+﻿namespace Dashboard.Models
 {
-    public class VehicleTempChamberViewModel
+    public class MonitoringTempViewModel
     {
         public string? PlateNumber { get; set; }
         public double? Longitude { get; set; }

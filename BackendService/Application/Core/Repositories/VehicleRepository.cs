@@ -34,7 +34,8 @@ namespace BackendService.Application.Core.Repositories
                 {
                     Latitude = item.Latitude,
                     Longitude = item.Longitude,
-                    PlateNumber = item.PlateNumber
+                    PlateNumber = item.PlateNumber,
+                    LastUpdated = item.CreatedAt.ToString("dd-MM-yyyy hh:mm:ss"),
                 };
 
                 foreach (var temperatur in item.VehicleChambers.Select((value, index) => new { value, index }))

@@ -1,0 +1,33 @@
+﻿@model List<MonitoringTempViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Monitoring</h1>
+</div>
+<table class="table">
+    <thead class="table-light">
+        <tr>
+            <th>Nopol</th>
+            <th>Longitude</th>
+            <th>Latitude</th>
+            <th>Temperature 1</th>
+            <th>Temperature 2</th>
+            <th>Last Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+            <td>@item.PlateNumber</td>
+            <td>@item.Longitude</td>
+            <td>@item.Latitude</td>
+            <td>@item.TempOneValue</td>
+            <td>@item.TempTwoValue</td>
+            <td>@item.LastUpdated</td>
+            </tr>
+        }
+    </tbody>
+</table>
